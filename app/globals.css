@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 透明卡片：讓 BlockNote / Mantine 的背景也透明，文字像浮在白板上 */
+.note-transparent .bn-container,
+.note-transparent .bn-editor,
+.note-transparent [class*="mantine"] {
+  background: transparent !important;
+}
+
+/* 透明卡片：拿掉 BlockNote 的內距、block handle、placeholder，看起來就是純文字 */
+.note-transparent .bn-editor {
+  padding: 2px 4px !important;
+  min-height: unset !important;
+}
+.note-transparent .bn-block-outer {
+  margin: 0 !important;
+}
+.note-transparent .bn-side-menu,
+.note-transparent .bn-drag-handle,
+.note-transparent .bn-add-block-button {
+  display: none !important;
+}
+.note-transparent .bn-inline-content:empty::before,
+.note-transparent [data-placeholder]::before {
+  content: '' !important;
+}
