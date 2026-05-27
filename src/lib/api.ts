@@ -1,7 +1,12 @@
 import { supabase } from './supabaseClient';
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+if (!apiUrl) {
+  throw new Error(
+    '缺少環境變數 NEXT_PUBLIC_API_URL：請在 frontend/.env.local（或 Vercel）設定後端 API 網址'
+  );
+}
+export const API_BASE_URL = apiUrl;
 
 // 若 access token 剩下不到這麼多毫秒就過期，先主動 refresh。
 // Supabase JS 的 auto-refresh 是背景 timer，長時間背景頁籤可能被瀏覽器凍結而沒跑到；

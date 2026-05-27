@@ -434,7 +434,7 @@ export default function CourseBuilder() {
     } catch (err) {
       if (isAbortError(err)) return; // 使用者主動取消（切換對話 / 離開頁面），不要蓋錯誤訊息
       console.error(err);
-      setMessages([...baseMessages, { role: 'assistant', content: '⚠️ 連線失敗，請確認後端 (127.0.0.1:8000) 是否啟動。' }]);
+      setMessages([...baseMessages, { role: 'assistant', content: '連線失敗，請稍後再試或聯繫客服。' }]);
     } finally {
       if (streamAbortRef.current === controller) streamAbortRef.current = null;
       setIsLoading(false);
