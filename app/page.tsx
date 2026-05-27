@@ -151,7 +151,12 @@ export default function CourseBuilder() {
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        redirectTo:
+          typeof window !== 'undefined'
+            ? `${window.location.origin}/auth/callback`
+            : undefined,
+      },
     });
   };
 
