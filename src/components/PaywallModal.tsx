@@ -68,7 +68,7 @@ export default function PaywallModal({ open, onClose, onUpgrade, courseCount, fr
               ⭐ 立即升級專業版
             </button>
             <p className="text-xs text-gray-500 text-center">
-              將跳轉至綠界支付頁面，支援信用卡付款
+              將跳轉至藍新金流支付頁面，支援信用卡付款
             </p>
           </div>
         </div>

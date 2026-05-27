@@ -169,7 +169,7 @@ export default function CourseBuilder() {
     const headers = await getAuthHeaders();
     if (!headers) { alert('請先登入再升級'); return; }
     try {
-      const res = await fetch(`${API_BASE_URL}/api/create-ecpay-order`, {
+      const res = await fetch(`${API_BASE_URL}/api/create-newebpay-order`, {
         method: 'POST',
         headers,
       });
@@ -177,21 +177,25 @@ export default function CourseBuilder() {
         const detail = await res.json().catch(() => ({}));
         throw new Error(detail.detail || `HTTP ${res.status}`);
       }
-      const { action_url, params }: {
+      const { action_url, MerchantID, TradeInfo, TradeSha, Version }: {
         action_url: string;
-        params: Record<string, string | number>;
+        MerchantID: string;
+        TradeInfo: string;
+        TradeSha: string;
+        Version: string;
       } = await res.json();
 
-      // 動態建立隱藏表單 → submit 跳轉綠界（URL 由後端決定，切換測試/正式環境只要改後端 env）
+      // 動態建立隱藏表單 → submit 跳轉藍新金流（藍新只認這 4 個 input；URL 由後端決定，切換測試/正式環境只要改後端 env）
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = action_url;
       form.style.display = 'none';
-      Object.entries(params).forEach(([k, v]) => {
+      const fields: Record<string, string> = { MerchantID, TradeInfo, TradeSha, Version };
+      Object.entries(fields).forEach(([k, v]) => {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.name = k;
-        input.value = String(v);
+        input.value = v;
         form.appendChild(input);
       });
       document.body.appendChild(form);
