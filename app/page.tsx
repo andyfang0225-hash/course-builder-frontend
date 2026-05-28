@@ -588,64 +588,188 @@ export default function CourseBuilder() {
   if (!currentUser) {
     return (
       <div className="min-h-screen bg-white text-black font-sans flex flex-col selection:bg-black selection:text-white">
-        <div className="flex-1 flex items-center justify-center p-8">
-          <div className="max-w-md w-full text-center space-y-6 border-2 border-black p-8 md:p-12">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-wider">專屬課程建構室</h1>
-            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-              請先登入以開始規劃您的專屬課程與 AI 助教
-            </p>
+        <main className="flex-1 flex flex-col">
+          {/* Hero / 登入 */}
+          <section className="flex items-center justify-center px-4 md:px-8 py-16 md:py-24">
+            <div className="max-w-md w-full text-center space-y-6 border-2 border-black p-8 md:p-12 shadow-[6px_6px_0_0_rgba(0,0,0,1)]">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-wider">專屬課程建構室</h1>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                請先登入以開始規劃您的專屬課程與 AI 助教
+              </p>
 
-            {/* 同意條款勾選：必勾才能啟用登入按鈕。
-                e.stopPropagation 防止點擊「服務條款」連結時順便切換 checkbox（label htmlFor 預設會代為觸發）。 */}
-            <div className="flex items-start gap-2 text-sm text-left leading-relaxed">
-              <input
-                id="agree-tos"
-                type="checkbox"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                className="mt-1 cursor-pointer accent-black"
-              />
-              <label htmlFor="agree-tos" className="cursor-pointer">
-                我已閱讀並同意{' '}
-                <Link
-                  href="/terms"
-                  target="_blank"
-                  onClick={(e) => e.stopPropagation()}
+              {/* 同意條款勾選：必勾才能啟用登入按鈕。
+                  e.stopPropagation 防止點擊「服務條款」連結時順便切換 checkbox（label htmlFor 預設會代為觸發）。 */}
+              <div className="flex items-start gap-2 text-sm text-left leading-relaxed">
+                <input
+                  id="agree-tos"
+                  type="checkbox"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  className="mt-1 cursor-pointer accent-black"
+                />
+                <label htmlFor="agree-tos" className="cursor-pointer">
+                  我已閱讀並同意{' '}
+                  <Link
+                    href="/terms"
+                    target="_blank"
+                    onClick={(e) => e.stopPropagation()}
+                    className="underline font-bold hover:bg-black hover:text-white"
+                  >
+                    服務條款
+                  </Link>
+                  {' '}與{' '}
+                  <Link
+                    href="/privacy"
+                    target="_blank"
+                    onClick={(e) => e.stopPropagation()}
+                    className="underline font-bold hover:bg-black hover:text-white"
+                  >
+                    隱私權政策
+                  </Link>
+                </label>
+              </div>
+
+              <button
+                onClick={handleSignIn}
+                disabled={!agreedToTerms}
+                className="w-full border-2 border-black bg-black text-white px-6 py-3 text-base font-bold hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                title={!agreedToTerms ? '請先勾選同意服務條款' : undefined}
+              >
+                Google 登入
+              </button>
+
+              <a href="#pricing" className="block text-xs text-gray-500 hover:text-black underline underline-offset-4">
+                查看定價方案 ↓
+              </a>
+            </div>
+          </section>
+
+          {/* 定價方案 */}
+          <section id="pricing" className="border-t-2 border-black bg-gray-50 px-4 md:px-8 py-16 md:py-24">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold tracking-wider mb-3">定價方案</h2>
+                <p className="text-sm md:text-base text-gray-700">選擇適合你的方案，隨時可升級或取消</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+                {/* Free */}
+                <div className="border-2 border-black bg-white p-6 md:p-8 flex flex-col shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                  <h3 className="text-2xl font-bold">免費版</h3>
+                  <p className="text-sm text-gray-600 mt-1">適合輕度體驗</p>
+                  <div className="flex items-baseline gap-2 mt-4 mb-6">
+                    <span className="text-4xl font-bold">NT$ 0</span>
+                    <span className="text-sm text-gray-500">/ 月</span>
+                  </div>
+                  <ul className="space-y-3 text-sm flex-1">
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>每月可生成 5 堂課程</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>基本 AI 課程顧問</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-gray-400">
+                      <span className="font-bold mt-0.5">✕</span>
+                      <span>不支援檔案附加</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-gray-400">
+                      <span className="font-bold mt-0.5">✕</span>
+                      <span>不支援 YouTube 影片參考</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-gray-400">
+                      <span className="font-bold mt-0.5">✕</span>
+                      <span>不支援白板與筆記</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-gray-400">
+                      <span className="font-bold mt-0.5">✕</span>
+                      <span>不支援隨堂 AI 助教</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Pro */}
+                <div className="relative border-2 border-black bg-yellow-300 p-6 md:p-8 flex flex-col shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
+                  <div className="absolute -top-3 right-6 bg-black text-white px-3 py-1 text-xs font-bold tracking-wider">
+                    推薦
+                  </div>
+                  <h3 className="text-2xl font-bold">專業版</h3>
+                  <p className="text-sm text-gray-800 mt-1">解鎖完整功能</p>
+                  <div className="flex items-baseline gap-2 mt-4 mb-6">
+                    <span className="text-4xl font-bold">NT$ 300</span>
+                    <span className="text-sm text-gray-700">/ 月</span>
+                  </div>
+                  <ul className="space-y-3 text-sm flex-1">
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>每月無限制生成課程</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>AI 課程顧問（含檔案附加）</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>YouTube 影片字幕參考</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>白板與 Markdown 筆記模式</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>隨堂 AI 助教（RAG 問答）</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold mt-0.5">✓</span>
+                      <span>課程一鍵轉重點筆記</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <p className="text-center text-xs text-gray-500 mt-8">
+                付款由藍新金流安全處理，支援信用卡。如需開立發票或退款，請來信客服。
+              </p>
+            </div>
+          </section>
+        </main>
+
+        {/* Footer */}
+        <footer className="border-t-2 border-black bg-white px-4 md:px-8 py-8">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-6 text-sm">
+            <div className="text-center md:text-left">
+              <p className="font-bold tracking-wider mb-2">客服聯絡資訊</p>
+              <p className="text-gray-700">
+                Email：
+                <a
+                  href="mailto:d94309793@gmail.com"
                   className="underline font-bold hover:bg-black hover:text-white"
                 >
-                  服務條款
-                </Link>
-                {' '}與{' '}
-                <Link
-                  href="/privacy"
-                  target="_blank"
-                  onClick={(e) => e.stopPropagation()}
-                  className="underline font-bold hover:bg-black hover:text-white"
-                >
-                  隱私權政策
-                </Link>
-              </label>
+                  d94309793@gmail.com
+                </a>
+              </p>
+              <p className="text-gray-700 mt-1">客服時間：週一至週五 09:00-18:00</p>
             </div>
 
-            <button
-              onClick={handleSignIn}
-              disabled={!agreedToTerms}
-              className="w-full border-2 border-black bg-black text-white px-6 py-3 text-base font-bold hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
-              title={!agreedToTerms ? '請先勾選同意服務條款' : undefined}
+            <nav
+              aria-label="footer"
+              className="flex items-center justify-center md:justify-end gap-4 text-gray-700"
             >
-              Google 登入
-            </button>
+              <Link href="/privacy" className="hover:underline hover:text-black">
+                隱私權政策
+              </Link>
+              <span aria-hidden="true" className="text-gray-300">|</span>
+              <Link href="/terms" className="hover:underline hover:text-black">
+                服務條款
+              </Link>
+            </nav>
           </div>
-        </div>
 
-        <footer className="border-t border-black p-4 text-center text-xs text-gray-600">
-          <Link href="/terms" target="_blank" className="mx-2 hover:underline">
-            服務條款
-          </Link>
-          <span aria-hidden="true">・</span>
-          <Link href="/privacy" target="_blank" className="mx-2 hover:underline">
-            隱私權政策
-          </Link>
+          <div className="max-w-5xl mx-auto mt-6 pt-4 border-t border-gray-200 text-center text-xs text-gray-500">
+            © {new Date().getFullYear()} 專屬課程建構室. All rights reserved.
+          </div>
         </footer>
       </div>
     );
