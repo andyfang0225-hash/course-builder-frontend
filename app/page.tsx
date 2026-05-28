@@ -1238,6 +1238,34 @@ export default function CourseBuilder() {
 
       </main>
 
+      {/* 主畫面底部 footer：審核可見、使用者隨時找得到客服資訊 */}
+      <footer className="border-t-2 border-black bg-white px-4 md:px-8 py-6 mt-12">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs md:text-sm text-gray-600">
+          <div className="text-center md:text-left">
+            <span>
+              客服信箱：
+              <a
+                href="mailto:d94309793@gmail.com"
+                className="underline font-bold hover:bg-black hover:text-white"
+              >
+                d94309793@gmail.com
+              </a>
+            </span>
+            <span className="hidden md:inline mx-2 text-gray-300">|</span>
+            <span className="block md:inline">客服時間：週一至週五 09:00-18:00</span>
+          </div>
+          <nav aria-label="footer" className="flex items-center justify-center gap-3">
+            <Link href="/privacy" className="hover:underline hover:text-black">
+              隱私權政策
+            </Link>
+            <span aria-hidden="true" className="text-gray-300">|</span>
+            <Link href="/terms" className="hover:underline hover:text-black">
+              服務條款
+            </Link>
+          </nav>
+        </div>
+      </footer>
+
       <PaywallModal
         open={isPaywallOpen}
         onClose={() => setIsPaywallOpen(false)}
